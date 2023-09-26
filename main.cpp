@@ -4,31 +4,34 @@
 
 const long double e = 2.7182818284590452353602874713526624977572470936999595749669676277240766303535475945713821785251664274;
 
+using namespace std;
+
 int main() {
 
+    int k;
+    long double x;
+    cout << "vvedite x: ";
+    cin >> x;
+    cout << "vvedite k: ";
+    cin >> k;
 
-    int x, k;
-    std::cin >> x >> k;
+    long double eps = pow(10, -k);
 
-    const long long tenPow = pow(10, k);
-    long double leftSide = trunc((pow(e, x) - pow(e, -x)) / 2 * tenPow);
+    long double ans1, ans2, ans3;
 
-    long double sum = x;
-    long long xPow = x;
-    long long fact = 1;
+    ans1 = sinh(x);
+    ans3 = (pow(e, x) - pow(e, -x)) / 2.0;
 
-    for (int i = 1; i < 1000000000; i++) {
-        long long rightSide = trunc(sum * tenPow);
-        if (leftSide == rightSide) {
-            break;
-        }
+    long double a = x;
+    ans2 = x;
+    int n = 2;
 
-        xPow *= x * x;
-        fact *= (i * 2) * (i * 2 + 1);
-        sum += double(xPow) / fact;
+    while (abs(a) > eps) {
+        a = a * x * x / (n * (n + 1));
+        n += 2;
+        ans2 += a;
     }
 
-    std::cout << std::setprecision(30) << sum;
-
+    cout << fixed << setprecision(k) << "with sinh function:\n " << ans1 << "\nwith my solution:\n " << ans2 << "\nwith the formula with e:\n " << ans3;
     return 0;
 }
